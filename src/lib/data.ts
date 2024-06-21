@@ -1,4 +1,4 @@
-type GearBox = {
+export type GearBox = {
   id: number;
   name: string;
   main1: number;
@@ -12,6 +12,8 @@ type GearBox = {
   main5?: number;
   lay5?: number;
 };
+
+export type IntRatios = [number, number, number, number, number?];
 
 type GearBoxs = GearBox[];
 
