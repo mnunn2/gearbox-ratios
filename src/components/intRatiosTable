@@ -1,10 +1,10 @@
 // takes a GearBox object and returns a table of the internal ratios
 // and gear spacing, sets the internal ratios array.
 import { useEffect } from "react";
-import { IntRatios } from "@/lib/data";
 import Table from "react-bootstrap/Table";
 import { GearBox } from "@/lib/data";
 
+type IntRatios = [number, number, number, number, number?];
 const calcInt = (main: number, lay: number, topDiv: number): number => {
   return parseFloat(((lay / main) * topDiv).toFixed(3));
 };
@@ -64,7 +64,7 @@ export default function IntRatiosTable({
       return i + 1 < intRats.length ? e - intRats[i + 1] : null;
     })
     .filter((e) => e !== null);
-
+  // create the gear spacing string
   spaces.map((e, i) => {
     if (i === 0 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - second - ";
     if (i === 1 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - third - ";
