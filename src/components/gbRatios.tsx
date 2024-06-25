@@ -13,10 +13,11 @@ import SelectNumGears from "./SelectNumGears";
 import InternalRatiosForm from "./InternalRatiosForm";
 import SelectSprockets from "./SelectSprockets";
 import OverallRatiosTable from "./ OverallRatiosTable";
+import TestForm from "./TestForm";
 
 export default function GbRatios() {
   // state defs
-  const [manGearNum, setManGearNum] = useState(4);
+  const [manGearNum, setManGearNum] = useState(1);
   const [showGears, setShowGears] = useState(false);
   const [showManIntIn, setShowManIntIn] = useState(false);
   const [gbName, setGbName] = useState("Norton Commando");
@@ -42,6 +43,7 @@ export default function GbRatios() {
     setGbName(e.target.value);
     setShowGears(true);
     setShowManIntIn(false);
+    setManGearNum(1);
   };
 
   const gearNumSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -62,21 +64,20 @@ export default function GbRatios() {
 
   return (
     <>
-      <Form.Group>
-        <Row>
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <SelectGearbox gbSelect={gbSelect} gbName={gbName} />
-            {showGears && <GearsTable gears={gears} intRatios={intRatios} />}
-          </Col>
-          <Col lg={6} md={6} sm={12} xs={12}>
-            <SelectNumGears
-              gearNumSelect={gearNumSelect}
-              manGearNum={manGearNum}
-            />
-            {showManIntIn && <InternalRatiosForm manGearNum={manGearNum} />}
-          </Col>
-        </Row>
-      </Form.Group>
+      <Row>
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <SelectGearbox gbSelect={gbSelect} gbName={gbName} />
+          {showGears && <GearsTable gears={gears} intRatios={intRatios} />}
+        </Col>
+        <Col lg={6} md={6} sm={12} xs={12}>
+          <SelectNumGears
+            gearNumSelect={gearNumSelect}
+            manGearNum={manGearNum}
+          />
+          {/* {showManIntIn && <InternalRatiosForm manGearNum={manGearNum} />} */}
+          {showManIntIn && <TestForm manGearNum={manGearNum} />}
+        </Col>
+      </Row>
       <div>{gbName}</div>
       <SelectSprockets sprocketSelect={sprocketSelect} sproc={sproc} />
       <div></div>
