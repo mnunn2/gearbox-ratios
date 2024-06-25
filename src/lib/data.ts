@@ -1,21 +1,5 @@
-export type GearBox = {
-  id: number;
-  name: string;
-  main1: number;
-  lay1: number;
-  main2: number;
-  lay2: number;
-  main3: number;
-  lay3: number;
-  main4: number | null;
-  lay4: number | null;
-  main5?: number | null;
-  lay5?: number | null;
-  main6?: number | null;
-  lay6?: number | null;
- };
 
-export type GearBoxs = GearBox[];
+
 export const gearData = [
   { id: 1, name: "default", main1: 16, lay1: 27, main2: 21, lay2: 22, main3: 24, lay3: 19, main4: 22, lay4: 14, main5: null, lay5: null, main6: null, lay6: null},
   { id: 2, name: "b40Wd", main1: 17, lay1: 33, main2: 20, lay2: 30, main3: 25, lay3: 25, main4: 22, lay4: 14, main5: null, lay5: null, main6: null, lay6: null},
@@ -37,3 +21,5 @@ export const sprocOpts = {
   gb: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
   rw: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60],
 }
+
+export const numOfGears = [2, 3, 4, 5, 6];

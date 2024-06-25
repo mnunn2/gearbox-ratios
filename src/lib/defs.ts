@@ -15,5 +15,11 @@ export type GearBox = {
   lay6?: number | null;
 };
 
+export type GearBoxs = GearBox[];
 export type Gears = [number, number][];
 export type Ratios = number[];
+
+export const enum Shaft {
+  main,
+  lay,
+}

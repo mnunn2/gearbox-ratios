@@ -1,9 +1,10 @@
-import { Gears } from "./defs";
-import { Ratios } from "./defs";
-import { GearBox } from "./defs";
+import { Gears, Ratios, GearBox, Shaft } from "./defs";
 
 export const getGears = (gb: GearBox): Gears => {
   // takes a gearbox object and returns an array of gear number pairs [main, lay]
+  if (!gb) {
+    return [];
+  }
   let gears: Gears = [];
 
   if (gb.main1 && gb.lay1) gears.push([gb.main1, gb.lay1]);
@@ -15,12 +16,8 @@ export const getGears = (gb: GearBox): Gears => {
   return gears;
 };
 
-export const calcInternalRatios = (gears: Gears): Ratios => {
+export const calcInternalRatiosGb = (gears: Gears): Ratios => {
   // takes an array of gear number pairs [main, lay] and returns an array of internal ratios first gear to top gear
-  const enum Shaft {
-    main,
-    lay,
-  }
   const top = gears[gears.length - 1];
   let ratios: number[] = [];
   gears.forEach((g) => {
