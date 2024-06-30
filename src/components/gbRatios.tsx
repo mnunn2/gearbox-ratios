@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import { Row, Col, Form } from "react-bootstrap";
 // data and utils
 import { gearData, sprocOpts } from "@/lib/data";
-import { Gears, Ratios } from "@/lib/defs";
+import { Gears, Ratios, Sproc } from "@/lib/defs";
 import { calcInternalRatiosGb, getGears } from "@/lib/utils";
 // components
 import GearsTable from "./GearsTable";
@@ -21,29 +21,44 @@ export default function GbRatios() {
   const [showGears, setShowGears] = useState(false);
   const [showManIntIn, setShowManIntIn] = useState(false);
   const [gbName, setGbName] = useState("Norton Commando");
-  const [sproc, setSproc] = useState({
+  const [sproc, setSproc] = useState<Sproc>({
     en: 26,
     cl: 57,
     gb: 19,
     rw: 42,
   });
-
-  // get individual gb object from gearData using gbName state
-  // get the gears from gb and calc internal ratios
-  const gb = gearData.filter((g) => g.name === gbName)[0];
-  const gears: Gears = getGears(gb);
-  const intRatios: Ratios = calcInternalRatiosGb(gears);
-
-  // calculate overall
-  const driveRatio = (sproc.cl / sproc.en) * (sproc.rw / sproc.gb);
-  const overallRatios: Ratios = intRatios.map((r) => r * driveRatio);
+  const [intRatios, setIntRatios] = useState([1, 2, 3, 4]);
+  const [overallRatios, setOverallRatios] = useState([1, 2, 3, 4]);
+  const [gears, setGears] = useState([
+    [0, 0],
+    [0, 0],
+    [0, 0],
+    [0, 0],
+  ]);
 
   // form handlers
   const gbSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setGbName(e.target.value);
+    const tmpGbName = e.target.value;
+    setGbName(tmpGbName);
     setShowGears(true);
     setShowManIntIn(false);
     setManGearNum(1);
+    // get individual gb object from gearData using tmpGbName
+    // get the gears from gb and calc internal ratios
+    const gb = gearData.filter((g) => g.name === tmpGbName)[0];
+    const tmpGears = getGears(gb);
+    let tmpSproc: Sproc = sproc;
+    tmpSproc.en = gb.en;
+    tmpSproc.cl = gb.cl;
+    tmpSproc.gb = gb.gb;
+    tmpSproc.rw = gb.rw;
+    const intTmp: Ratios = calcInternalRatiosGb(tmpGears);
+    const driveRatio = (sproc.cl / sproc.en) * (sproc.rw / sproc.gb);
+    const overallTmp: Ratios = intTmp.map((r) => r * driveRatio);
+    setGears(tmpGears);
+    setIntRatios(intTmp);
+    setOverallRatios(overallTmp);
+    setSproc(tmpSproc);
   };
 
   const gearNumSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -53,13 +68,12 @@ export default function GbRatios() {
   };
 
   const sprocketSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSproc((prevalue) => {
-      return {
-        // copy previous state and overwrite the whole object with new value
-        ...prevalue,
-        [e.target.name]: e.target.value,
-      };
-    });
+    let tmpSproc = sproc;
+    tmpSproc[e.target.name] = parseInt(e.target.value);
+    setSproc(tmpSproc);
+    const driveRatio = (sproc.cl / sproc.en) * (sproc.rw / sproc.gb);
+    const overallTmp: Ratios = intRatios.map((r) => r * driveRatio);
+    setOverallRatios(overallTmp);
   };
 
   return (

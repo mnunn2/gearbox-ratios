@@ -14,9 +14,15 @@ export type GearBox = {
   main6?: number | null;
   lay6?: number | null;
 };
-
+export type Sproc = {
+  [key: string]: number;
+  en: number;
+  cl: number;
+  gb: number;
+  rw: number;
+};
 export type GearBoxs = GearBox[];
-export type Gears = [number, number][];
+export type Gears = number[][];
 export type Ratios = number[];
 
 export const enum Shaft {
