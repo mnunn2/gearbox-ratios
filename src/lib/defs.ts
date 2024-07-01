@@ -14,7 +14,7 @@ export type GearBox = {
   main6?: number | null;
   lay6?: number | null;
 };
-export type Sproc = {
+export type Sprocs = {
   [key: string]: number;
   en: number;
   cl: number;
