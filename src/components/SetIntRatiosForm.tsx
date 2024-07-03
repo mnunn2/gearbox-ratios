@@ -1,13 +1,15 @@
 import { Form, Row, Col, Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { gearName } from "@/lib/data";
-import { useState, ChangeEvent } from "react";
-import { FormEvent } from "react";
+import { Ratios } from "@/lib/defs";
+import { useState, FormEvent } from "react";
 
 export default function InternalRatioForm({
   manGearNum,
+  setIntRatiosForm,
 }: {
   manGearNum: number;
+  setIntRatiosForm: (ratios: Ratios) => void;
 }) {
   const [validated, setValidated] = useState(false);
 
@@ -17,9 +19,19 @@ export default function InternalRatioForm({
       e.preventDefault();
       e.stopPropagation();
     }
+
     e.preventDefault();
     setValidated(true);
-    console.log("form submitted");
+
+    let intRatios: Ratios = [];
+
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    for (let [key, value] of formData.entries()) {
+      intRatios.push(parseFloat(value as string));
+    }
+    intRatios.push(1);
+    setIntRatiosForm(intRatios);
   };
 
   return (
@@ -44,6 +56,7 @@ export default function InternalRatioForm({
                 </InputGroup.Text>
                 <Form.Control
                   type="text"
+                  name={gearName[i]}
                   placeholder="Ratio"
                   aria-describedby="inputGroupPrepend"
                   required
@@ -60,6 +73,7 @@ export default function InternalRatioForm({
             <InputGroup.Text id="inputGroupPrepend">Top</InputGroup.Text>
             <Form.Control
               type="text"
+              name="top"
               placeholder="1"
               aria-describedby="inputGroupPrepend"
               disabled

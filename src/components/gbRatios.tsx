@@ -4,22 +4,23 @@ import Container from "react-bootstrap/Container";
 import { Row, Col, Form } from "react-bootstrap";
 // data and utils
 import { gearData } from "@/lib/data";
-import { Sprocs } from "@/lib/defs";
+import { Sprocs, Ratios } from "@/lib/defs";
 import { calcInternalRatiosGb, getGears } from "@/lib/utils";
 // components
 import GearsTable from "./GearsTable";
 import SelectGearbox from "./SelectGearbox";
 import SelectNumGears from "./SelectNumGears";
-import InternalRatiosForm from "./InternalRatiosForm";
+import SetIntRatiosForm from "./SetIntRatiosForm";
 import SelectSprockets from "./SelectSprockets";
 import OverallRatiosTable from "./ OverallRatiosTable";
-import TestForm from "./TestForm";
+import GearSpacing from "./GearSpacing";
 
 // reducer action types
 type SetGb = { type: "setGb"; gbName: string };
+type SetIntForm = { type: "setIntForm"; intRatios: Ratios };
 type setGearNum = { type: "setGearNum"; manGearNum: number };
 type setSprocs = { type: "setSprocs"; sprocs: Sprocs };
-type Action = SetGb | setGearNum | setSprocs;
+type Action = SetGb | setGearNum | setSprocs | SetIntForm;
 
 export default function GbRatios() {
   const [state, dispatch] = useReducer(reducer, initState);
@@ -49,6 +50,13 @@ export default function GbRatios() {
     });
   }
 
+  function handleSetIntForm(r: Ratios) {
+    dispatch({
+      type: "setIntForm",
+      intRatios: r,
+    });
+  }
+
   return (
     <>
       <Row>
@@ -63,17 +71,29 @@ export default function GbRatios() {
             gearNumSelect={handleSetGearNum}
             manGearNum={state.manGearNum}
           />
-          {/* {showManIntIn && <InternalRatiosForm manGearNum={manGearNum} />} */}
-          {/* {showManIntIn && <TestForm manGearNum={manGearNum} />} */}
+          {state.showManIntIn && (
+            <SetIntRatiosForm
+              manGearNum={state.manGearNum}
+              setIntRatiosForm={handleSetIntForm}
+            />
+          )}
         </Col>
       </Row>
       <div>{state.gbName}</div>
       <SelectSprockets sprocketSelect={handleSetSprocs} sproc={state.sprocs} />
       <div></div>
-      <OverallRatiosTable overallRatios={state.overallRatios} />
+      {state.showOverall && (
+        <OverallRatiosTable overallRatios={state.overallRatios} />
+      )}
+
+      <GearSpacing
+        intRatios={state.intRatios}
+        overallRatios={state.overallRatios}
+      />
     </>
   );
 }
+
 function reducer(state: typeof initState, n: Action): typeof initState {
   switch (n.type) {
     case "setGb": {
@@ -96,14 +116,20 @@ function reducer(state: typeof initState, n: Action): typeof initState {
           rw: gb.rw,
         },
         showGears: true,
+        showOverall: true,
+        showManIntIn: false,
+        manGearNum: 1,
       };
     }
     case "setGearNum": {
       return {
         ...state,
         manGearNum: n.manGearNum,
-        showGears: false,
         showManIntIn: true,
+        showGears: false,
+        showOverall: false,
+        gbName: "default",
+        sprocs: initState.sprocs,
       };
     }
     case "setSprocs": {
@@ -115,6 +141,15 @@ function reducer(state: typeof initState, n: Action): typeof initState {
         sprocs: n.sprocs,
         driveRatio: dr,
         overallRatios: or,
+      };
+    }
+    case "setIntForm": {
+      const overallTmp = n.intRatios.map((r) => r * state.driveRatio);
+      return {
+        ...state,
+        intRatios: n.intRatios,
+        overallRatios: overallTmp,
+        showOverall: true,
       };
     }
   }
@@ -129,9 +164,10 @@ const initState = {
   ],
   intRatios: [0, 0, 0, 0],
   overallRatios: [0, 0, 0, 0],
-  driveRatio: 0,
-  sprocs: { en: 0, cl: 0, gb: 0, rw: 0 },
+  driveRatio: 5.94,
+  sprocs: { en: 16, cl: 43, gb: 19, rw: 42 },
   showGears: false,
   showManIntIn: false,
   manGearNum: 1,
+  showOverall: false,
 };

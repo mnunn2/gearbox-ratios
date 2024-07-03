@@ -15,6 +15,7 @@ export const gearData = [
 ]
 
 export const gearName = ["first", "second", "third", "fourth", "fifth", "sixth"];
+export const gearSpacingName = ["first to second", "second to third", "third to fourth", "fourth to fifth", "fifth to sixth"];
 
 export const sprocOpts = {
   en: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
