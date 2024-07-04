@@ -2,15 +2,7 @@ import Table from "react-bootstrap/Table";
 import { Ratios } from "@/lib/defs";
 import { gearName, gearSpacingName } from "@/lib/data";
 
-export default function GearSpacing({
-  intRatios,
-  overallRatios,
-}: {
-  intRatios: Ratios;
-  overallRatios: Ratios;
-}) {
-  type RatiosTableRow = Array<[string, number, number, number]>;
-
+export default function GearSpacing({ intRatios }: { intRatios: Ratios }) {
   // get the internal ratios column and calculate the gear spacing
   let gearSpacing = "first - ";
   const overallSpacing = (intRatios[0] - 1).toFixed(2);
@@ -22,13 +14,13 @@ export default function GearSpacing({
     })
     .filter((e) => e !== null);
   // create the gear spacing string
-  // spaces.map((e, i) => {
-  //   if (i === 0 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - second - ";
-  //   if (i === 1 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - third - ";
-  //   if (i === 2 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - fourth";
-  //   if (i === 3 && e)
-  //     gearSpacing = gearSpacing + " - " + e.toFixed(1) + " - fifth";
-  // });
+  spaces.map((e, i) => {
+    if (i === 0 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - second - ";
+    if (i === 1 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - third - ";
+    if (i === 2 && e) gearSpacing = gearSpacing + e.toFixed(1) + " - fourth";
+    if (i === 3 && e)
+      gearSpacing = gearSpacing + " - " + e.toFixed(1) + " - fifth";
+  });
 
   return (
     <>

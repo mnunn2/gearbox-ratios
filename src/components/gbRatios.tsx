@@ -14,6 +14,7 @@ import SetIntRatiosForm from "./SetIntRatiosForm";
 import SelectSprockets from "./SelectSprockets";
 import OverallRatiosTable from "./ OverallRatiosTable";
 import GearSpacing from "./GearSpacing";
+import RoadSpeeds from "./RoadSpeeds";
 
 // reducer action types
 type SetGb = { type: "setGb"; gbName: string };
@@ -79,17 +80,29 @@ export default function GbRatios() {
           )}
         </Col>
       </Row>
-      <div>{state.gbName}</div>
-      <SelectSprockets sprocketSelect={handleSetSprocs} sproc={state.sprocs} />
-      <div></div>
-      {state.showOverall && (
-        <OverallRatiosTable overallRatios={state.overallRatios} />
-      )}
-
-      <GearSpacing
-        intRatios={state.intRatios}
-        overallRatios={state.overallRatios}
-      />
+      <Row>
+        <Col>
+          <SelectSprockets
+            sprocketSelect={handleSetSprocs}
+            sproc={state.sprocs}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={6} md={6} sm={12} xs={12}>
+          {state.showOverall && (
+            <OverallRatiosTable overallRatios={state.overallRatios} />
+          )}
+        </Col>
+        <Col lg={6} md={6} sm={12} xs={12}>
+          {state.showOverall && <GearSpacing intRatios={state.intRatios} />}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {state.showOverall && <RoadSpeeds oRatios={state.overallRatios} />}
+        </Col>
+      </Row>
     </>
   );
 }
