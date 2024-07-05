@@ -103,6 +103,7 @@ export default function GbRatios() {
           {state.showOverall && <RoadSpeeds oRatios={state.overallRatios} />}
         </Col>
       </Row>
+      <SelectGearbox gbSelect={handleSetGb} gbName={state.gbName} />
     </>
   );
 }
