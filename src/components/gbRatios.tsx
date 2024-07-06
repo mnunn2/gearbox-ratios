@@ -80,7 +80,7 @@ export default function GbRatios() {
           )}
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-5">
         <Col>
           <SelectSprockets
             sprocketSelect={handleSetSprocs}
@@ -103,7 +103,6 @@ export default function GbRatios() {
           {state.showOverall && <RoadSpeeds oRatios={state.overallRatios} />}
         </Col>
       </Row>
-      <SelectGearbox gbSelect={handleSetGb} gbName={state.gbName} />
     </>
   );
 }
