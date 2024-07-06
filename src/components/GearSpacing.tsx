@@ -40,7 +40,7 @@ export default function GearSpacing({ intRatios }: { intRatios: Ratios }) {
             return (
               <tr key={i}>
                 <td>{gearSpacingName[i]}</td>
-                <td>{parseFloat(g.toFixed(2))}</td>
+                <td>{g != null ? parseFloat(g.toFixed(2)) : "N/A"}</td>
               </tr>
             );
           })}
