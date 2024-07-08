@@ -89,7 +89,7 @@ export default function GbRatios() {
           )}
         </Col>
       </Row>
-      <Row className="mb-3">
+      <Row className="mb-4">
         <Col>
           {state.showOverall && (
             <SelectSprockets
