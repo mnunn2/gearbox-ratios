@@ -12,7 +12,12 @@ export default function SelectGearbox({
 }) {
   return (
     <>
-      <Form.Select value={gbName} onChange={(e) => gbSelect(e)}>
+      <Form.Label>Select a Gearbox : </Form.Label>
+      <Form.Select
+        className="mb-3"
+        value={gbName}
+        onChange={(e) => gbSelect(e)}
+      >
         {gearData.map((g) => {
           return (
             <option value={g.name} key={g.id}>

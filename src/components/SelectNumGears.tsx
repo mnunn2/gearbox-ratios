@@ -12,7 +12,12 @@ export default function SelectNumGears({
 }) {
   return (
     <>
-      <Form.Select value={manGearNum} onChange={(e) => gearNumSelect(e)}>
+      <Form.Label>Select number of gears : </Form.Label>
+      <Form.Select
+        className="mb-3"
+        value={manGearNum}
+        onChange={(e) => gearNumSelect(e)}
+      >
         {numOfGears.map((n, i) => {
           return (
             <option value={n} key={i}>

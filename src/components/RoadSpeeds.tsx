@@ -87,10 +87,10 @@ export default function RoadSpeeds({ oRatios }: { oRatios: Ratios }) {
   return (
     <>
       <Form>
-        <Row>
+        <Row className="mb-3">
           <Col>
             <Form.Label>
-              Rear wheel rolling radius <b>{wheelRad}</b>
+              Rear wheel rolling radius <b>{wheelRad} &#34;</b>
             </Form.Label>
             <Form.Range
               min="10"

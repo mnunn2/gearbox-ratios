@@ -15,23 +15,23 @@ export default function InternalRatioForm({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
+    // TODO: "remove console.log";
+    console.log("form", form);
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
     }
-
     e.preventDefault();
     setValidated(true);
-
-    let intRatios: Ratios = [];
-
-    const formData = new FormData(e.target as HTMLFormElement);
-
-    for (let [key, value] of formData.entries()) {
-      intRatios.push(parseFloat(value as string));
+    if (form.checkValidity() === true) {
+      let intRatios: Ratios = [];
+      const formData = new FormData(e.target as HTMLFormElement);
+      for (let [key, value] of formData.entries()) {
+        intRatios.push(parseFloat(value as string));
+      }
+      intRatios.push(1);
+      setIntRatiosForm(intRatios);
     }
-    intRatios.push(1);
-    setIntRatiosForm(intRatios);
   };
 
   return (
@@ -46,7 +46,7 @@ export default function InternalRatioForm({
     `}
       </style>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Label>Ratios as a single number 2.54</Form.Label>
+        <Form.Label>Ratios as a single number E.g 2.54</Form.Label>
         {[...Array(manGearNum - 1)].map((x, i) => {
           return (
             <Form.Group key={i} as={Col} md="5" controlId="basicInput">
@@ -55,7 +55,10 @@ export default function InternalRatioForm({
                   {gearName[i]}
                 </InputGroup.Text>
                 <Form.Control
-                  type="text"
+                  type="number"
+                  min="1.01"
+                  max="3.99"
+                  step="0.01"
                   name={gearName[i]}
                   placeholder="Ratio"
                   aria-describedby="inputGroupPrepend"
@@ -80,23 +83,8 @@ export default function InternalRatioForm({
             />
           </InputGroup>
         </Form.Group>
-        <Button type="submit">Submit form</Button>
+        <Button type="submit">Update</Button>
       </Form>
-      {/* <Form.Label>Ratios as a single number 2.54</Form.Label>
-      {[...Array(manGearNum - 1)].map((x, i) => {
-        return (
-          <InputGroup key={i} className="mb-3">
-            <InputGroup.Text className="foo" id="bar">
-              {gearName[i]}
-            </InputGroup.Text>
-            <Form.Control type="email" placeholder="1 to 5" />
-          </InputGroup>
-        );
-      })}
-      <InputGroup className="mb-3">
-        <InputGroup.Text id="foo">Top</InputGroup.Text>
-        <Form.Control type="email" placeholder="1" readOnly />
-      </InputGroup> */}
     </>
   );
 }

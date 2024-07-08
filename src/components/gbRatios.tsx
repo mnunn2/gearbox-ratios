@@ -1,7 +1,7 @@
 "use client";
 import { ChangeEvent, useReducer } from "react";
 import Container from "react-bootstrap/Container";
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Collapse } from "react-bootstrap";
 // data and utils
 import { gearData } from "@/lib/data";
 import { Sprocs, Ratios } from "@/lib/defs";
@@ -60,7 +60,16 @@ export default function GbRatios() {
 
   return (
     <>
-      <Row>
+      {state.showIntro && (
+        <Row className="mb-5">
+          <div id="intro">
+            <h1 className="header">Gearbox Ratios</h1>
+            Select a gearbox or manually enter internal gear ratios by selecting
+            the number of gears.
+          </div>
+        </Row>
+      )}
+      <Row className="mb-3">
         <Col lg={6} md={6} sm={12} xs={12}>
           <SelectGearbox gbSelect={handleSetGb} gbName={state.gbName} />
           {state.showGears && (
@@ -80,15 +89,17 @@ export default function GbRatios() {
           )}
         </Col>
       </Row>
-      <Row className="mt-5">
+      <Row className="mb-3">
         <Col>
-          <SelectSprockets
-            sprocketSelect={handleSetSprocs}
-            sproc={state.sprocs}
-          />
+          {state.showOverall && (
+            <SelectSprockets
+              sprocketSelect={handleSetSprocs}
+              sproc={state.sprocs}
+            />
+          )}
         </Col>
       </Row>
-      <Row>
+      <Row className="mb-3">
         <Col lg={6} md={6} sm={12} xs={12}>
           {state.showOverall && (
             <OverallRatiosTable overallRatios={state.overallRatios} />
@@ -132,6 +143,7 @@ function reducer(state: typeof initState, n: Action): typeof initState {
         showOverall: true,
         showManIntIn: false,
         manGearNum: 1,
+        showIntro: false,
       };
     }
     case "setGearNum": {
@@ -143,6 +155,7 @@ function reducer(state: typeof initState, n: Action): typeof initState {
         showOverall: false,
         gbName: "default",
         sprocs: initState.sprocs,
+        showIntro: false,
       };
     }
     case "setSprocs": {
@@ -183,4 +196,5 @@ const initState = {
   showManIntIn: false,
   manGearNum: 1,
   showOverall: false,
+  showIntro: true,
 };
