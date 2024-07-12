@@ -15,8 +15,6 @@ export default function InternalRatioForm({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
-    // TODO: "remove console.log";
-    console.log("form", form);
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();

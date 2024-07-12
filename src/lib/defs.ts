@@ -13,7 +13,12 @@ export type GearBox = {
   lay5?: number | null;
   main6?: number | null;
   lay6?: number | null;
+  en: number;
+  cl: number;
+  gb: number;
+  rw: number;
 };
+
 export type Sprocs = {
   [key: string]: number;
   en: number;

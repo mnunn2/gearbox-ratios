@@ -1,9 +1,12 @@
-"use client";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import GbRatios from "@/components/gbRatios";
+import { getSheetData } from "@/lib/googleData";
 
-export default function Home() {
+export default async function Home() {
+  const data = await getSheetData();
+  console.log("data: ", data);
+
   return (
     <Container className="p-5 mb-4 bg-light rounded-3">
       <GbRatios />
