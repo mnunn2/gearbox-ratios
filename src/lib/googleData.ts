@@ -1,16 +1,22 @@
 import { google } from "googleapis";
 
 export const getSheetData = async () => {
+  if (!process.env.GOOGLE_PRIVATE_KEY) {
+    throw new Error(
+      "GOOGLE_PRIVATE_KEY is not defined in environment variables.",
+    );
+  }
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY,
+      // private_key: Buffer.from(
+      //   process.env.GOOGLE_PRIVATE_KEY,
+      //   "base64",
+      // ).toString("ascii"),
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
   });
-  //TODO: remove console.logg
-  console.log("getSheetData has run");
-
   const client = await auth.getClient();
   const sheets = google.sheets({ version: "v4", auth: client as any });
   const range = "gbdata!A1:Z";
