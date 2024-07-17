@@ -8,9 +8,9 @@ export const getSheetData = async () => {
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
   });
-  //TODO: remove this line
-  console.log(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL);
-  console.log(process.env.GOOGLE_PRIVATE_KEY);
+  //TODO: remove console.logg
+  console.log("getSheetData has run");
+
   const client = await auth.getClient();
   const sheets = google.sheets({ version: "v4", auth: client as any });
   const range = "gbdata!A1:Z";

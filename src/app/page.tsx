@@ -3,13 +3,12 @@ import Navbar from "react-bootstrap/Navbar";
 import GbRatios from "@/components/gbRatios";
 import { getSheetData } from "@/lib/googleData";
 
-export default async function Home() {
-  const data = await getSheetData();
-  console.log("data: ", data);
+const gearData = await getSheetData();
 
+export default function Home() {
   return (
     <Container className="p-5 mb-4 bg-light rounded-3">
-      <GbRatios />
+      <GbRatios gearData={gearData} />
       <Navbar sticky="bottom" expand="lg" className="bg-body-tertiary">
         <Container>
           <span className="text-start">

@@ -26,7 +26,8 @@ export type Sprocs = {
   gb: number;
   rw: number;
 };
-export type GearBoxs = GearBox[];
+//export type GearData = GearBox[];
+export type GearData = Record<string, string | number | null>[];
 export type Gears = number[][];
 export type Ratios = number[];
 

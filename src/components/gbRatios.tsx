@@ -3,8 +3,7 @@ import { ChangeEvent, useReducer } from "react";
 import Container from "react-bootstrap/Container";
 import { Row, Col, Collapse } from "react-bootstrap";
 // data and utils
-import { gearData } from "@/lib/data";
-import { Sprocs, Ratios } from "@/lib/defs";
+import { Sprocs, Ratios, GearData } from "@/lib/defs";
 import { calcInternalRatiosGb, getGears } from "@/lib/utils";
 // components
 import GearsTable from "./GearsTable";
@@ -23,9 +22,8 @@ type setGearNum = { type: "setGearNum"; manGearNum: number };
 type setSprocs = { type: "setSprocs"; sprocs: Sprocs };
 type Action = SetGb | setGearNum | setSprocs | SetIntForm;
 
-export default function GbRatios() {
-  const [state, dispatch] = useReducer(reducer, initState);
-
+export default function GbRatios({ gearData }: { gearData: GearData }) {
+  const [state, dispatch] = useReducer(reducer, gearData, initFunc);
   // reducer actions / form handlers
   function handleSetGb(e: ChangeEvent<HTMLSelectElement>) {
     dispatch({
@@ -71,7 +69,11 @@ export default function GbRatios() {
       )}
       <Row className="mb-3">
         <Col lg={6} md={6} sm={12} xs={12}>
-          <SelectGearbox gbSelect={handleSetGb} gbName={state.gbName} />
+          <SelectGearbox
+            gbSelect={handleSetGb}
+            gbName={state.gbName}
+            gearData={state.gb}
+          />
           {state.showGears && (
             <GearsTable gears={state.gears} intRatios={state.intRatios} />
           )}
@@ -118,10 +120,10 @@ export default function GbRatios() {
   );
 }
 
-function reducer(state: typeof initState, n: Action): typeof initState {
+function reducer(state: any, n: Action) {
   switch (n.type) {
     case "setGb": {
-      const gb = gearData.filter((g) => g.name === n.gbName)[0];
+      const gb = state.gb.filter((g: any) => g.name === n.gbName)[0];
       const tmpGears = getGears(gb);
       const intTmp = calcInternalRatiosGb(tmpGears);
       const driveTmp = (gb.cl / gb.en) * (gb.rw / gb.gb);
@@ -154,13 +156,13 @@ function reducer(state: typeof initState, n: Action): typeof initState {
         showGears: false,
         showOverall: false,
         gbName: "default",
-        sprocs: initState.sprocs,
+        sprocs: state.sprocs,
         showIntro: false,
       };
     }
     case "setSprocs": {
       const dr = (n.sprocs.cl / n.sprocs.en) * (n.sprocs.rw / n.sprocs.gb);
-      const or = state.intRatios.map((r) => r * dr);
+      const or = state.intRatios.map((r: any) => r * dr);
 
       return {
         ...state,
@@ -180,21 +182,24 @@ function reducer(state: typeof initState, n: Action): typeof initState {
     }
   }
 }
-const initState = {
-  gbName: "",
-  gears: [
-    [0, 0],
-    [0, 0],
-    [0, 0],
-    [0, 0],
-  ],
-  intRatios: [0, 0, 0, 0],
-  overallRatios: [0, 0, 0, 0],
-  driveRatio: 5.94,
-  sprocs: { en: 16, cl: 43, gb: 19, rw: 42 },
-  showGears: false,
-  showManIntIn: false,
-  manGearNum: 1,
-  showOverall: false,
-  showIntro: true,
-};
+function initFunc(data: GearData) {
+  return {
+    gb: data,
+    gbName: "",
+    gears: [
+      [0, 0],
+      [0, 0],
+      [0, 0],
+      [0, 0],
+    ],
+    intRatios: [0, 0, 0, 0],
+    overallRatios: [0, 0, 0, 0],
+    driveRatio: 5.94,
+    sprocs: { en: 16, cl: 43, gb: 19, rw: 42 },
+    showGears: false,
+    showManIntIn: false,
+    manGearNum: 1,
+    showOverall: false,
+    showIntro: true,
+  };
+}
