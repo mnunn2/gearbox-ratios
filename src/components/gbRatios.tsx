@@ -1,4 +1,6 @@
 "use client";
+import styles from "@/app/page.module.css";
+
 import { ChangeEvent, useReducer } from "react";
 import Container from "react-bootstrap/Container";
 import { Row, Col, Collapse } from "react-bootstrap";
@@ -61,9 +63,11 @@ export default function GbRatios({ gearData }: { gearData: GearData }) {
       {state.showIntro && (
         <Row className="mb-5">
           <div id="intro">
-            <h1 className="header">Gearbox Ratios</h1>
-            Select a gearbox or manually enter internal gear ratios by selecting
-            the number of gears.
+            <h1 className={styles.headingTxt}>Gearbox Ratios</h1>
+            <p className={styles.headingTxt}>
+              Select a gearbox or manually enter internal gear ratios by
+              selecting the number of gears.
+            </p>
           </div>
         </Row>
       )}

@@ -9,10 +9,6 @@ export const getSheetData = async () => {
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      // private_key: Buffer.from(
-      //   process.env.GOOGLE_PRIVATE_KEY,
-      //   "base64",
-      // ).toString("ascii"),
       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
@@ -26,7 +22,7 @@ export const getSheetData = async () => {
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range,
     });
-
+    console.info("Fetched sheet values");
     return sheetToGearData(response.data.values);
   } catch (err) {
     console.error("Error fetching sheet values", err);
